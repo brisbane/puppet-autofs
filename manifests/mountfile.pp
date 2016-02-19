@@ -2,7 +2,7 @@
 #
 # Provide custom map file containing mounts
 #
-define autofs::mountfile ($mountpoint, $file_source, $automountdir='') {
+define autofs::mountfile ($mountpoint, $file_source, $automountdir='', $options='') {
 
   $safe_target_name = regsubst($title, '[/:\n\s\*\(\)]', '_', 'GM')
 
@@ -25,5 +25,6 @@ define autofs::mountfile ($mountpoint, $file_source, $automountdir='') {
   autofs::mountentry { $mountfile:
     mountpoint => $mountpoint,
     mountfile  => $mountfile,
+    options    => $options,
   }
 }
