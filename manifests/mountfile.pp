@@ -2,7 +2,7 @@
 #
 # Provide custom map file containing mounts
 #
-define autofs::mountfile ($mountpoint, $file_source, $automountdir='', $options='') {
+define autofs::mountfile ($mountpoint, $file_source, $automountdir='', $options='', $config_file_mode=$autofs::config_file_mode) {
 
   $safe_target_name = regsubst($title, '[/:\n\s\*\(\)]', '_', 'GM')
 
@@ -16,7 +16,7 @@ define autofs::mountfile ($mountpoint, $file_source, $automountdir='', $options=
     ensure  => 'present',
     owner   => $autofs::config_file_owner,
     group   => $autofs::config_file_group,
-    mode    => $autofs::config_file_mode,
+    mode    => $config_file_mode,
     source  => $file_source,
     notify  => Service[$autofs::service_name],
     require => [ Package[$autofs::package_name], File["/etc/$automountdir"] ]
